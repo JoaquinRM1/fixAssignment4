@@ -1,17 +1,16 @@
 class Board < ApplicationRecord
-  belongs_to :user
-  has_many :board_tasks
-  has_many :states
-  has_many :tasks
+  has_many :user_boards
+  has_many :users, through: :user_boards
   has_many :states, dependent: :destroy
+  has_many :tasks, dependent: :destroy
 
   after_create :create_default_states, unless: -> { ENV['SEEDING'] }
 
   private
 
   def create_default_states
-    State.create(state_name: 'To Do', board_id: self.id)
-    State.create(state_name: 'In Progress', board_id: self.id)
-    State.create(state_name: 'Done', board_id: self.id)
+    states.create(state_name: 'To Do')
+    states.create(state_name: 'In Progress')
+    states.create(state_name: 'Done')
   end
 end

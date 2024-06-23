@@ -1,13 +1,13 @@
-# Crear usuarios
-#
-
 ENV['SEEDING'] = 'true'
 
-User.create!(username: "user1", email: "user1@example.com", password: "password", account_type: 1)
-User.create!(username: "user2", email: "user2@example.com", password: "password", account_type: 1)
-User.create!(username: "user3", email: "user3@example.com", password: "password", account_type: 1)
+# Crear usuarios
+users = []
+users << User.create!(username: "user1", email: "user1@example.com", password: "password", account_type: 1)
+users << User.create!(username: "user2", email: "user2@example.com", password: "password", account_type: 1)
+users << User.create!(username: "user3", email: "user3@example.com", password: "password", account_type: 1)
 
-# puts "User ids: #{User.pluck(:id)}"
+# Almacenar los IDs de los usuarios
+user_ids = users.map(&:id)
 
 # Crear tableros
 boards = []
@@ -30,9 +30,9 @@ boards = []
       state_id: board.states.sample.id,
       title: "Task #{k + 1} for #{board.board_name}",
       description: "Description for Task #{k + 1}",
-      informer_id: User.pluck(:id).sample,
-      assignee_id: User.pluck(:id).sample,
-      status: ["To Do", "In Progress", "Done"].sample,
+      informer_id: user_ids.sample,
+      assignee_id: user_ids.sample,
+      status: state_names.sample,
       priority: rand(1..5)
     )
 
