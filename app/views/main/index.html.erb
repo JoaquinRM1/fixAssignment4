@@ -1,0 +1,16 @@
+<div class="container">
+  <h1>Latest Boards</h1>
+  <div class="row">
+    <% @latest_boards.each do |board| %>
+      <div class="col-md-4">
+        <div class="card bg-light-blue">
+          <div class="card-body">
+            <h5 class="card-title"><%= board.board_name %></h5>
+            <p class="card-text">Click to see description</p>
+            <%= link_to "View", board_path(board), class: "btn btn-primary" %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

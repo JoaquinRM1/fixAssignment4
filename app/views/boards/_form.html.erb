@@ -1,0 +1,8 @@
+<%= form_with(model: @board, local: true) do |form| %>
+  <div class="mb-3">
+    <%= form.label :board_name, "Board Name", class: "form-label" %>
+    <%= form.text_field :board_name, class: "form-control" %>
+  </div>
+
+  <%= form.submit "Save", class: "btn btn-primary" %>
+<% end %>

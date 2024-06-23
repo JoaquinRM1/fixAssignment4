@@ -1,0 +1,88 @@
+<h1><%= @board.board_name %></h1>
+
+<div class="row">
+  <div class="col-md-12">
+    <%= link_to 'Back', boards_path, class: 'btn btn-primary' %>
+    <% if user_signed_in? %>
+      <%= link_to 'Edit', edit_board_path(@board), class: "btn btn-primary" %>
+      <%= link_to 'Delete', @board, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+    <% end %>
+
+    <hr>
+
+    <div class="text-center">
+      <h3>States:</h3>
+    </div>
+
+    <hr>
+
+    <div class="row">
+      <% @board.states.each do |state| %>
+        <div class="col-md-4 text-center">
+          <h4><%= state.state_name %></h4>
+          <ul style="list-style-position: inside;">
+            <% @tasks.select { |task| task.board_id == @board.id && task.state_id == state.id }.each do |task| %>
+              <li>
+                <%= check_box_tag "task_ids[]", task.id %> <%= task.title %>
+              </li>
+            <% end %>
+          </ul>
+          <%= link_to 'New task', state, class: 'btn btn-primary'%>
+          <% if user_signed_in? %>
+            <td><%= link_to 'Edit state', edit_state_path(state), class: 'btn btn-primary' %></td>
+            <%= link_to 'Delete state', state, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+
+    <% if user_signed_in? %>
+      <div class="text-center" style="margin-top: 20px;">
+        <select id="new_state_id">
+          <% @board.states.each do |state| %>
+            <option value="<%= state.id %>"><%= state.state_name %></option>
+          <% end %>
+        </select>
+        <button id="move_tasks" class="btn btn-warning">Move Selected Tasks</button>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<script>
+$(document).ready(function() {
+    $('#move_tasks').on('click', function() {
+      var taskIds = $('input[name="task_ids[]"]:checked').map(function() {
+        return $(this).val();
+      }).get();
+      var newStateId = $('#new_state_id').val();
+
+      console.log("Moving tasks:", taskIds, "to new state:", newStateId);
+
+      if (taskIds.length > 0 && newStateId) {
+        $.ajax({
+          url: '/tasks/move',
+          type: 'POST',
+          data: {
+            task_ids: taskIds,
+            new_state_id: newStateId
+          },
+          headers: {
+            'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+          },
+          success: function(response) {
+            console.log("Tasks moved successfully:", response);
+            location.reload();
+          },
+          error: function(response) {
+            console.error("Error moving tasks:", response.responseText);
+            alert('Error moving tasks: ' + response.responseText);
+          }
+        });
+      } else {
+        alert('Please select tasks and a new state');
+      }
+    });
+  });
+  </script>

@@ -1,0 +1,26 @@
+<div class="col-md-12">
+<%= link_to 'Back to Board', board_path(@state.board), class: 'btn btn-primary' %>
+</div>
+
+<div class="text-center" style="margin-top: 20px;">
+  <h1><%= @state.state_name %></h1>
+</div>
+
+<div class="text-center" style="margin-top: 20px;">
+  <h2>Tasks:</h2>
+  <ul style="list-style-position: inside;">
+    <% @state.tasks.each do |task| %>
+      <li><%= task.title %></li>
+      <% if user_signed_in? %>
+        <%= link_to 'Edit', edit_task_path(task), class: 'btn btn-primary' %>
+        <%= link_to 'Destroy', task, class: 'btn btn-danger', method: :delete, data: { confirm: 'Are you sure?' } %>
+      <% end %>
+    <% end %>
+  </ul>
+</div>
+
+<% if user_signed_in? %>
+  <div class="text-center" style="margin-top: 20px;">
+    <%= link_to 'Create Task', new_board_state_task_path(@state.board_id, @state.id), class: 'btn btn-success' %>
+  </div>
+<% end%>

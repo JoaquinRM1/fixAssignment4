@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Lista de Tableros</title>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Lista de Tableros</h1>
+
+        <%= link_to 'New Board', new_board_path(@board), class: 'btn btn-primary' %>
+
+        <% @boards.each do |board| %>
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h2><%= board.board_name %></h2>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3>States:</h3>
+                            <div class="row">
+                                <% board.states.each do |state| %>
+                                    <div class="col-md-3">
+                                        <h4><%= state.state_name %></h4>
+                                          <ul>
+                                            <% @tasks.select { |task| task.board_id == board.id && task.state_id == state.id}.each do |task| %>
+                                              <li><%= task.title %></li>
+                                            <% end %>
+                                          </ul>
+                                    </div>
+                                <% end %>
+                            </div>
+                            <%= link_to "View", board_path(board), class: "btn btn-primary" %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% end %>
+    </div>
+</body>
+</html>
+
+
+
