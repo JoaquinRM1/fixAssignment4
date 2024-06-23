@@ -7,7 +7,9 @@ Rails.application.routes.draw do
 
   root to: "main#index"
 
-  devise_for :users
+  devise_for :users, controllers: {
+    sessions: 'users/sessions'
+  }
   resources :states
   resources :tasks do
     collection do
@@ -20,4 +22,9 @@ Rails.application.routes.draw do
       resources :tasks, only: [:new, :create, :edit, :update, :destroy]
     end
   end
+
+  devise_scope :user do
+    get '/users/sign_out', to: 'users/sessions#destroy_with_get', as: :destroy_user_session_get
+  end
+
 end
