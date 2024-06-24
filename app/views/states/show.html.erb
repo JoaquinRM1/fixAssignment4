@@ -1,5 +1,7 @@
 <div class="col-md-12">
-<%= link_to 'Back to Board', board_path(@state.board), class: 'btn btn-primary' %>
+<%= link_to board_path(@state.board), class: 'btn btn-primary' do %>
+  <i class="bi bi-arrow-90deg-left"></i> Back to Board
+<% end %>
 </div>
 
 <div class="text-center" style="margin-top: 20px;">
@@ -12,8 +14,12 @@
     <% @state.tasks.each do |task| %>
       <li><%= task.title %></li>
       <% if user_signed_in? %>
-        <%= link_to 'Edit', edit_task_path(task), class: 'btn btn-primary' %>
-        <%= link_to 'Destroy', task, class: 'btn btn-danger', method: :delete, data: { confirm: 'Are you sure?' } %>
+        <%= link_to edit_task_path(task), class: 'btn btn-warning' do %>
+          <i class="bi bi-pen"></i> Edit Task
+        <% end %>
+        <%= link_to task, class: 'btn btn-danger', method: :delete, data: { confirm: 'Are you sure?' } do %>
+          <i class="bi bi-pen"></i> Delete Task
+        <% end %>
       <% end %>
     <% end %>
   </ul>

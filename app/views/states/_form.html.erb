@@ -1,12 +1,12 @@
 <%= form_with(model: @state, local: true) do |form| %>
-  <div class="mb-3">
+    <div class="mb-3">
       <%= form.label :state_name, "State Name", class: "form-label" %>
       <%= form.text_field :state_name, class: "form-control" %>
-  </div>
+    </div>
   <% if @state.new_record? %>
       <div class="mb-3">
           <%= form.label :board_id, "Board ID", class: "form-label" %>
-          <%= form.text_field :board_id, class: "form-control" %>
+          <%= form.text_field :board_id, class: "form-control", readonly: true %>
       </div>
   <% else %>
       <div class="mb-3">
@@ -14,6 +14,7 @@
           <%= form.text_field :board_id, class: "form-control", readonly: true %>
       </div>
   <% end %>
+  <%= form.hidden_field :board_id, value: @board.id %>
 
   <%= form.submit "Save", class: "btn btn-primary" %>
 <% end %>

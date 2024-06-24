@@ -7,7 +7,9 @@
           <div class="card-body">
             <h5 class="card-title"><%= board.board_name %></h5>
             <p class="card-text">Click to see description</p>
-            <%= link_to "View", board_path(board), class: "btn btn-primary" %>
+            <%= link_to board_path(board), class: "btn btn-primary" do %>
+              <i class="fa fa-eye"></i> View
+            <% end %>
           </div>
         </div>
       </div>

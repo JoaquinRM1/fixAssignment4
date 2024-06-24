@@ -2,10 +2,16 @@
 
 <div class="row">
   <div class="col-md-12">
-    <%= link_to 'Back', boards_path, class: 'btn btn-primary' %>
+    <%= link_to boards_path, class: 'btn btn-primary' do %>
+      <i class="bi bi-arrow-90deg-left"></i>Back
+    <% end %>
     <% if user_signed_in? %>
-      <%= link_to 'Edit', edit_board_path(@board), class: "btn btn-primary" %>
-      <%= link_to 'Delete', @board, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+      <%= link_to edit_board_path(@board), class: "btn btn-warning" do %>
+        <i class="bi bi-pen"></i> Edit
+      <% end %>
+      <%= link_to @board, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: 'btn btn-danger' do %>
+        <i class="fa fa-trash"></i> Delete
+      <% end %>
     <% end %>
 
     <hr>
@@ -27,10 +33,18 @@
               </li>
             <% end %>
           </ul>
-          <%= link_to 'New task', state, class: 'btn btn-primary'%>
+          <%= link_to state, class: 'btn btn-primary' do %>
+            <i class="bi bi-plus"></i> New Task
+          <% end %>
           <% if user_signed_in? %>
-            <td><%= link_to 'Edit state', edit_state_path(state), class: 'btn btn-primary' %></td>
-            <%= link_to 'Delete state', state, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+            <td>
+              <%= link_to edit_state_path(state), class: 'btn btn-warning' do %>
+                <i class="bi bi-pen"></i> Edit State
+              <% end %>
+            </td>
+            <%= link_to state, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: 'btn btn-danger' do %>
+              <i class="fa fa-trash"></i> Delete
+            <% end %>
           <% end %>
         </div>
       <% end %>

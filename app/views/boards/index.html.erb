@@ -10,7 +10,9 @@
     <div class="container mt-5">
         <h1 class="mb-4">Lista de Tableros</h1>
 
-        <%= link_to 'New Board', new_board_path(@board), class: 'btn btn-primary' %>
+        <%= link_to new_board_path(@board), class: 'btn btn-primary' do %>
+            <i class="bi bi-plus"></i> New Board
+        <% end %>
 
         <% @boards.each do |board| %>
             <div class="card mb-4">
@@ -33,7 +35,9 @@
                                     </div>
                                 <% end %>
                             </div>
-                            <%= link_to "View", board_path(board), class: "btn btn-primary" %>
+                            <%= link_to board_path(board), class: "btn btn-primary" do %>
+                                <i class="fa fa-eye"></i> View
+                            <% end %>
                         </div>
                     </div>
                 </div>

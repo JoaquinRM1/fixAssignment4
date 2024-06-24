@@ -1,7 +1,7 @@
 class StatesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_state, only: [:show, :edit, :update, :destroy]
-  before_action :set_board, only: [:show, :edit, :update, :destroy]
+  before_action :set_board, only: [:new, :create, :show, :edit, :update, :destroy]
   before_action :authorize_user!, only: [:edit, :update, :destroy]
 
   def index
@@ -11,12 +11,11 @@ class StatesController < ApplicationController
   def show; end
 
   def new
-    @board = Board.find(params[:board_id])
     @state = @board.states.new
   end
 
   def create
-    @board = Board.find(params[:board_id])
+    @board = Board.find(params[:board_id]) # Ensure @board is set here
     @state = @board.states.new(state_params)
     if @state.save
       redirect_to @board, notice: 'State was successfully created.'
@@ -47,7 +46,11 @@ class StatesController < ApplicationController
   end
 
   def set_board
-    @board = @state.board
+    if params[:board_id]
+      @board = Board.find(params[:board_id])
+    elsif @state
+      @board = @state.board
+    end
   end
 
   def state_params
