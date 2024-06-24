@@ -22,6 +22,11 @@ Rails.application.routes.draw do
     end
   end
   resources :boards do
+    member do
+      get 'manage_editors'
+      post 'add_editor'
+      delete 'remove_editor/:user_id', to: 'boards#remove_editor', as: 'remove_editor'
+    end
     resources :states do
       resources :tasks, only: [:new, :create, :edit, :update, :destroy]
     end

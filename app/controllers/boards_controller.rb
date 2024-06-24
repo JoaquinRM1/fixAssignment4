@@ -1,7 +1,7 @@
 class BoardsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :set_board, only: [:show, :edit, :update, :destroy]
-  before_action :authorize_user!, only: [:edit, :update, :destroy]
+  before_action :set_board, only: [:show, :edit, :update, :destroy, :manage_editors, :add_editor, :remove_editor]
+  before_action :authorize_user!, only: [:edit, :update, :destroy, :manage_editors, :add_editor, :remove_editor]
 
   def index
     @boards = Board.all
@@ -9,7 +9,6 @@ class BoardsController < ApplicationController
   end
 
   def show
-    @board = Board.find(params[:id])
     @tasks = Task.where(board_id: @board.id)
     @states = State.where(board_id: @board.id)
   end
@@ -42,6 +41,22 @@ class BoardsController < ApplicationController
     redirect_to boards_path, notice: 'Board was successfully deleted.'
   end
 
+  def manage_editors
+    @users = User.all - @board.editors
+  end
+
+  def add_editor
+    user = User.find(params[:user_id])
+    @board.editors << user
+    redirect_to manage_editors_board_path(@board), notice: "#{user.email} can now edit this board."
+  end
+
+  def remove_editor
+    user = User.find(params[:user_id])
+    @board.editors.delete(user)
+    redirect_to manage_editors_board_path(@board), notice: "#{user.email} can no longer edit this board."
+  end
+
   private
 
   def set_board
@@ -53,6 +68,6 @@ class BoardsController < ApplicationController
   end
 
   def authorize_user!
-    redirect_to boards_path, alert: 'You are not authorized to perform this action.' unless @board.user == current_user
+    redirect_to boards_path, alert: 'You are not authorized to perform this action.' unless @board.user == current_user || @board.editors.include?(current_user)
   end
 end

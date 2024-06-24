@@ -1,0 +1,34 @@
+<h1>Manage Editors for <%= @board.board_name %></h1>
+
+<div class="row">
+  <div class="col-md-12">
+    <%= link_to board_path(@board), class: 'btn btn-primary' do %>
+      <i class="bi bi-arrow-90deg-left"></i> Back to Board
+    <% end %>
+  </div>
+</div>
+
+<hr>
+
+<h2>Add Editors</h2>
+<%= form_with url: add_editor_board_path(@board), method: :post, local: true do |form| %>
+  <div class="mb-3">
+    <%= form.label :user_id, "Select User", class: "form-label" %>
+    <%= form.collection_select :user_id, @users, :id, :email, prompt: "Choose a user", class: "form-select" %>
+  </div>
+  <%= form.submit "Add Editor", class: "btn btn-success" %>
+<% end %>
+
+<hr>
+
+<h2>Current Editors</h2>
+<ul>
+  <% @board.editors.each do |editor| %>
+    <li>
+      <%= editor.email %>
+      <%= link_to remove_editor_board_path(@board, user_id: editor.id), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger btn-sm" do %>
+        Remove
+      <% end %>
+    </li>
+  <% end %>
+</ul>
