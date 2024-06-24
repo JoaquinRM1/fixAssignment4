@@ -26,7 +26,7 @@
   <% @board.editors.each do |editor| %>
     <li>
       <%= editor.email %>
-      <%= link_to remove_editor_board_path(@board, user_id: editor.id), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger btn-sm" do %>
+      <%= link_to remove_editor_board_path(@board, user_id: editor.id), data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: "btn btn-danger btn-sm" do %>
         Remove
       <% end %>
     </li>
