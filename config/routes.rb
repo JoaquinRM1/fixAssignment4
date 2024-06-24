@@ -27,8 +27,8 @@ Rails.application.routes.draw do
     end
   end
 
-  devise_scope :user do
-    get '/users/sign_out', to: 'users/sessions#destroy_with_get', as: :destroy_user_session_get
-  end
-
+#  método hack para permitir logout con GET
+#  devise_scope :user do
+#    get '/users/sign_out', to: 'users/sessions#destroy_with_get', as: :destroy_user_session_get
+#  end
 end
