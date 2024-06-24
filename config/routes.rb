@@ -7,10 +7,14 @@ Rails.application.routes.draw do
 
   root to: "main#index"
 
+  resources :states
+  resources :boards
+  resources :tasks
+
   devise_for :users, controllers: {
     sessions: 'users/sessions'
   }
-  resources :states
+
   resources :tasks do
     collection do
       post 'simple_ajax'

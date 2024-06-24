@@ -13,7 +13,7 @@
       <li><%= task.title %></li>
       <% if user_signed_in? %>
         <%= link_to 'Edit', edit_task_path(task), class: 'btn btn-primary' %>
-        <%= link_to 'Destroy', task, class: 'btn btn-danger', method: :delete, data: { confirm: 'Are you sure?' } %>
+        <%= link_to 'Delete task', task, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
       <% end %>
     <% end %>
   </ul>
