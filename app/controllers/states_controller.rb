@@ -15,7 +15,7 @@ class StatesController < ApplicationController
   end
 
   def create
-    @board = Board.find(params[:board_id]) # Ensure @board is set here
+    @board = Board.find(params[:board_id])
     @state = @board.states.new(state_params)
     if @state.save
       redirect_to @board, notice: 'State was successfully created.'
