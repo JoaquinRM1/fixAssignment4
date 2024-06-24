@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_23_235119) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_24_014452) do
   create_table "boards", force: :cascade do |t|
     t.string "board_name"
     t.datetime "created_at", null: false
@@ -36,10 +36,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_23_235119) do
     t.integer "priority"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id", default: 1, null: false
     t.index ["assignee_id"], name: "index_tasks_on_assignee_id"
     t.index ["board_id"], name: "index_tasks_on_board_id"
     t.index ["informer_id"], name: "index_tasks_on_informer_id"
     t.index ["state_id"], name: "index_tasks_on_state_id"
+    t.index ["user_id"], name: "index_tasks_on_user_id"
   end
 
   create_table "user_boards", force: :cascade do |t|
@@ -68,6 +70,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_23_235119) do
   add_foreign_key "states", "boards"
   add_foreign_key "tasks", "boards"
   add_foreign_key "tasks", "states"
+  add_foreign_key "tasks", "users"
   add_foreign_key "tasks", "users", column: "assignee_id"
   add_foreign_key "tasks", "users", column: "informer_id"
   add_foreign_key "user_boards", "boards"
