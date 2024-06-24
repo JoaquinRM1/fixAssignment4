@@ -7,10 +7,14 @@ Rails.application.routes.draw do
 
   root to: "main#index"
 
+  resources :states
+  resources :boards
+  resources :tasks
+
   devise_for :users, controllers: {
     sessions: 'users/sessions'
   }
-  resources :states
+
   resources :tasks do
     collection do
       post 'simple_ajax'
@@ -23,8 +27,8 @@ Rails.application.routes.draw do
     end
   end
 
-  devise_scope :user do
-    get '/users/sign_out', to: 'users/sessions#destroy_with_get', as: :destroy_user_session_get
-  end
-
+#  método hack para permitir logout con GET
+#  devise_scope :user do
+#    get '/users/sign_out', to: 'users/sessions#destroy_with_get', as: :destroy_user_session_get
+#  end
 end

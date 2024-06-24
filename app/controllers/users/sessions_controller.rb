@@ -18,10 +18,11 @@ class Users::SessionsController < Devise::SessionsController
   #   super
   # end
 
-  def destroy_with_get
-    sign_out current_user
-    redirect_to root_path, notice: "Signed out successfully."
-  end
+  # método hack para permitir logout con GET
+  # def destroy_with_get
+  #   sign_out current_user
+  #   redirect_to root_path, notice: "Signed out successfully."
+  # end
 
   # protected
 

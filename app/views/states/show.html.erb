@@ -14,12 +14,17 @@
     <% @state.tasks.each do |task| %>
       <li><%= task.title %></li>
       <% if user_signed_in? %>
+<<<<<<< HEAD
         <%= link_to edit_task_path(task), class: 'btn btn-warning' do %>
           <i class="bi bi-pen"></i> Edit Task
         <% end %>
         <%= link_to task, class: 'btn btn-danger', method: :delete, data: { confirm: 'Are you sure?' } do %>
           <i class="bi bi-pen"></i> Delete Task
         <% end %>
+=======
+        <%= link_to 'Edit', edit_task_path(task), class: 'btn btn-primary' %>
+        <%= link_to 'Delete task', task, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+>>>>>>> ba36b0143fe4a93134a3e9cb7c8e6749f81d2117
       <% end %>
     <% end %>
   </ul>
