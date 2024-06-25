@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
+
     <title>Lista de Tableros</title>
 </head>
 <body>
@@ -13,12 +15,14 @@
         <%= link_to new_board_path(@board), class: 'btn btn-primary' do %>
             <i class="bi bi-plus"></i> New Board
         <% end %>
+        <br> </br>
 
         <% @boards.each do |board| %>
             <div class="card mb-4">
-                <div class="card-header">
+                <div class="card-header bg-light-blue">
                     <h2><%= board.board_name %></h2>
                 </div>
+
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-12">

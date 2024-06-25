@@ -34,4 +34,8 @@
   .bg-light-blue {
     background-color: #add8e6; /* Color azul claro */
   }
-  
+  .vertical-line {
+    border-left: 1px solid #ccc;
+    height: 100%; /* Adjust height as needed */
+    margin: 0 15px; /* Adjust margin for spacing */
+  }
