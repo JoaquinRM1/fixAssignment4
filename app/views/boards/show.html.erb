@@ -7,10 +7,10 @@
     <% end %>
     <% if user_signed_in? && (@board.user == current_user || @board.editors.include?(current_user)) %>
       <%= link_to edit_board_path(@board), class: "btn btn-warning" do %>
-        <i class="bi bi-pen"></i> Edit
+        <i class="bi bi-pen"></i> Edit Board
       <% end %>
       <%= link_to @board, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: 'btn btn-danger' do %>
-        <i class="fa fa-trash"></i> Delete
+        <i class="fa fa-trash"></i> Delete Board
       <% end %>
       <%= link_to manage_editors_board_path(@board), class: 'btn btn-secondary' do %>
         <i class="bi bi-person-plus"></i> Manage Editors
