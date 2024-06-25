@@ -37,7 +37,10 @@
           <ul style="list-style-position: inside;">
             <% @tasks.select { |task| task.board_id == @board.id && task.state_id == state.id }.each do |task| %>
               <li>
-                <%= check_box_tag "task_ids[]", task.id %> <%= task.title %>
+                <% if user_signed_in? && (@board.user == current_user || @board.editors.include?(current_user)) %>
+                  <%= check_box_tag "task_ids[]", task.id %> 
+                <% end %>
+                <%= task.title %>
               </li>
             <% end %>
           </ul>
