@@ -1,43 +1,70 @@
 # Crear usuarios
 #
 
-ENV['SEEDING'] = 'true'
+# db/seeds.rb
 
-User.create!(username: "user1", email: "user1@example.com", password: "password", account_type: 1)
-User.create!(username: "user2", email: "user2@example.com", password: "password", account_type: 1)
-User.create!(username: "user3", email: "user3@example.com", password: "password", account_type: 1)
+# Clear existing records to avoid duplication
+Task.destroy_all
+State.destroy_all
+BoardTask.destroy_all
+BoardEditor.destroy_all
+Board.destroy_all
+User.destroy_all
 
-# puts "User ids: #{User.pluck(:id)}"
+# Create users
+users = []
+3.times do |i|
+  users << User.create!(
+    username: "user#{i + 1}",
+    email: "user#{i + 1}@example.com",
+    password: "password",
+    account_type: 1
+  )
+end
 
-# Crear tableros
+# Create boards and associate with users
 boards = []
 3.times do |i|
-  board = Board.create!(board_name: "Board #{i + 1}")
+  board = Board.create!(
+    board_name: "Board #{i + 1}",
+    user: users.sample # Assuming board has a creator who is a user
+  )
   boards << board
 
-  # Crear un array con todos los nombres de los estados
-  state_names = ["To Do", "In Progress", "Done"]
-
-  # Crear estados para cada tablero
-  state_names.each do |state_name|
-    board.states.create!(state_name: state_name)
+  # Associate board editors
+  2.times do
+    BoardEditor.create!(
+      board: board,
+      user: users.sample
+    )
   end
 
-  # Crear tareas en cada tablero
+  # Create states for each board
+  state_names = ["To Do", "In Progress", "Done"]
+  states = state_names.map { |name| board.states.create!(state_name: name) }
+
+  # Create tasks for each board
   5.times do |k|
-    task = Task.new(
-      board_id: board.id,
-      state_id: board.states.sample.id,
+    task = Task.create!(
+      board: board,
+      state: states.sample,
       title: "Task #{k + 1} for #{board.board_name}",
       description: "Description for Task #{k + 1}",
-      informer_id: User.pluck(:id).sample,
-      assignee_id: User.pluck(:id).sample,
-      status: ["To Do", "In Progress", "Done"].sample,
+      informer: users.sample,
+      assignee: users.sample,
+      user: users.sample, # This user is necessary because of the belongs_to association in Task
+      status: state_names.sample,
       priority: rand(1..5)
     )
 
-    task.save!
+    # Associate task with the board through BoardTask
+    BoardTask.create!(
+      board: board,
+      task: task
+    )
   end
 end
 
 ENV.delete('SEEDING')
+
+puts "Seeding completed successfully!"
