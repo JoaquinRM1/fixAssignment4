@@ -2,4 +2,6 @@
 
 <%= render 'form', task: @task %>
 
-<%= link_to 'Back to Board', board_path(@task.board), class: 'btn btn-secondary' %>
+<%= link_to board_path(@task.board), class: 'btn btn-secondary' do %>
+    <i class="bi bi-arrow-90deg-left"></i> Back to Board
+<% end %>

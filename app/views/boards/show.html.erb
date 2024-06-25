@@ -21,6 +21,11 @@
 
     <div class="text-center">
       <h3>States:</h3>
+      <% if user_signed_in? && (@board.user == current_user || @board.editors.include?(current_user)) %>
+        <%= link_to new_board_state_path(@board), class: 'btn btn-success' do %>
+          <i class="bi bi-plus"></i> New State
+        <% end %>
+      <% end %>
     </div>
 
     <hr>
@@ -98,4 +103,8 @@ $(document).ready(function() {
           }
         });
       } else {
-        alert('Please select 
+        alert('Please select tasks and a new state');
+      }
+    });
+  });
+</script>

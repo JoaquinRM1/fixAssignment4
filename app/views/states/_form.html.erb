@@ -1,20 +1,20 @@
-<%= form_with(model: @state, local: true) do |form| %>
-    <div class="mb-3">
-      <%= form.label :state_name, "State Name", class: "form-label" %>
-      <%= form.text_field :state_name, class: "form-control" %>
+<%= form_with(model: [@board, @state], local: true) do |form| %>
+    <% if @state.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@state.errors.count, "error") %> prohibited this state from being saved:</h2>
+        <ul>
+          <% @state.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+  
+    <div class="field">
+      <%= form.label :state_name %>
+      <%= form.text_field :state_name %>
     </div>
-  <% if @state.new_record? %>
-      <div class="mb-3">
-          <%= form.label :board_id, "Board ID", class: "form-label" %>
-          <%= form.text_field :board_id, class: "form-control", readonly: true %>
-      </div>
-  <% else %>
-      <div class="mb-3">
-          <%= form.label :board_id, "Board ID", class: "form-label" %>
-          <%= form.text_field :board_id, class: "form-control", readonly: true %>
-      </div>
+  
+    <%= form.submit "Save", class: "btn btn-primary" %>
   <% end %>
-  <%= form.hidden_field :board_id, value: @board.id %>
-
-  <%= form.submit "Save", class: "btn btn-primary" %>
-<% end %>
+  
